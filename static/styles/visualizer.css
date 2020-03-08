@@ -3,8 +3,8 @@
     display: grid;
     grid-row-gap: 1px;
     grid-column-gap: 1px;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(50, 1fr);
+    grid-template-rows: repeat(25, 1fr);
     grid-gap: 3px;
     max-width: 360px;
 
@@ -38,4 +38,92 @@
 		}
 .end:hover{
      background-color: #ff980f;
+}
+
+
+.neighbor {
+            text-align: center;
+			background: #b2ed0b;
+			padding: 5px;
+            text-align: center;
+			background: #0bedc7;
+			padding: 5px;
+            animation-name: neighborAnimation;
+            animation-duration: 1.5s;
+            animation-timing-function: ease-out;
+
+            animation-direction: alternate;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            animation-play-state: running;
+		}
+.neighbor:hover{
+     background-color: #ff0924;
+}
+
+
+
+.path {
+            text-align: center;
+			background: #0bedc7;
+			padding: 5px;
+            animation-name: shortestPath;
+            animation-duration: 1.5s;
+            animation-timing-function: ease-out;
+
+            animation-direction: alternate;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            animation-play-state: running;
+		}
+.path:hover{
+     background-color: #13a3ff;
+}
+
+
+@keyframes neighborAnimation {
+  0% {
+    transform: scale(0.3);
+    background-color: rgba(36, 14, 189, 0.75);
+    border-radius: 100%;
+  }
+
+  50% {
+    background-color: rgba(76, 48, 217, 0.75);
+  }
+
+  75% {
+    transform: scale(1.2);
+    background-color: rgba(82, 22, 217, 0.75);
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: rgba(182, 14, 218, 0.75);
+  }
+}
+
+
+@keyframes shortestPath {
+  0% {
+    transform: scale(0.6);
+    background-color: rgb(255, 226, 55);
+  }
+  25% {
+    transform: scale(0.8);
+    background-color: rgb(255, 190, 43);
+  }
+  50% {
+    transform: scale(1.2);
+    background-color: rgb(255, 156, 26);
+  }
+   75% {
+    transform: scale(0.8);
+    background-color: rgb(255, 97, 25);
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: rgb(255, 80, 22);
+  }
 }

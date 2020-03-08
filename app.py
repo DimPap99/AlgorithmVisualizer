@@ -32,15 +32,15 @@ def ping_pong():
 def hello():
 
 
-    for col in range(0, 5):
-        for rows in range(0, 5):
+    for col in range(0, 25):
+        for rows in range(0, 50):
             node = Node(col, rows)
 
             nodes_dict1[str(node.column) + '-' + str(node.row)] = node
 
     # Fill the neighbors list for every node
-    for col in range(0, 5):
-        for row in range(0, 5):
+    for col in range(0, 25):
+        for row in range(0, 50):
             # current node id is the col - row
             key = str(col) + '-' + str(row)
             current_node = nodes_dict1[key]
@@ -75,12 +75,20 @@ def process():
 
 
     output = request.get_json()
-    print(output)
+
     neighbors = djikstra(nodes_dict1, nodes_dict1[output[0]], nodes_dict1[output[1]])
-    print(findShortestPath( nodes_dict1[output[0]], nodes_dict1[output[1]], nodes_dict1, neighbors))
-    print(neighbors)
+    neighbors_list = []
+    for node in neighbors:
+        neighbors_list.append(node.getNodeid())
+    #print(neighbors_list)
+
+    path = findShortestPath( nodes_dict1[output[0]], nodes_dict1[output[1]], nodes_dict1, neighbors)
+    path_list = []
+    for node in path:
+        path_list.append(node.getNodeid())
+
     if output:
-        return jsonify({'output':'Full Name: ' + json.dumps(output)})
+        return jsonify({'output':json.dumps([neighbors_list,path_list])})
     return jsonify({'error' : 'Missing data!'})
 
 if __name__ == '__main__':

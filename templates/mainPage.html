@@ -82,7 +82,14 @@
   </p>
 </div>
 <script>
-
+    function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+    function drawCell(cellID){
+        //document.getElementById(ce).classList.remove('cell');
+        document.getElementById(cellID).classList.add('neighbor');
+    }
+      let variable = null
       $(document).ready(function() {
         $('form').on('submit', function(event) {
        $.ajax({
@@ -95,11 +102,57 @@
           })
         .done(function(data) {
           $('#output').text(data.output).show();
+          // lists contains two sublists. In index 0 all the neighbors in sorted order. In index 1 the shortest path.
+          let lists = JSON.parse(data.output);
+          let neighbors = lists[0];
+          let shortestPath = lists[1];
+            console.log(neighbors)
+          var i = 0;
+          var finishedNeighbors = false;
+          var j = 0;
+          function drawPath(){
+              setTimeout(function () {
+                 // console.log(lists[i])
+                  if(shortestPath[j] != endCellID && shortestPath[j]!= startCellID){
+                  document.getElementById(shortestPath[j]).classList.add('path');}
+
+                  j++;
+                  if(j<shortestPath.length){
+                      drawPath();
+                  }
+              },75)
+          }
+
+          function draw(){
+              setTimeout(function () {
+                  console.log(lists[i])
+                  if(neighbors[i] != endCellID){
+                  document.getElementById(neighbors[i]).classList.add('neighbor');}
+                  else finishedNeighbors = true;
+
+                  i++;
+                  if(i<neighbors.length){
+                      draw();
+                  }else drawPath();
+              },15)
+          }
+          draw();
+
+
+
+
+
+
+
+
+
       });
       event.preventDefault();
       });
 });
+
 </script>
+
 <!-- get id of Node on Click -->
 <script>
     $(document).on('click', '.cell', function ( event ) {
@@ -125,6 +178,9 @@
     $( "#log" ).html( "clicked: " + event.target.id );
 });
 </script>
+
+
+
     <body>
     <form action="/runAlgo" method="POST">
     <button type="button" onclick="myFunction()">Click Me!</button>
