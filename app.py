@@ -22,14 +22,11 @@ def add_header(response):
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
 
-# sanity check route
-@app.route('/ping', methods=['GET'])
-def ping_pong():
-    return jsonify('pong!')
+
 
 
 @app.route('/')
-def hello():
+def dijkstraNodes():
 
 
     for col in range(0, 25):
@@ -57,21 +54,11 @@ def hello():
 
     return flask.render_template('mainPage.html', nodes = nodes_dict1)
 
-@app.route('/tes2t', methods=['POST'])
-def get_names():
-   if request.method == 'POST':
-       names = request.get_json()
-       for name in names:
-           print(name)
-   return '', 200
 
 
-@app.route('/test')
-def index():
-    return flask.render_template('index.html')
 
 @app.route('/runAlgo',methods= ['POST'])
-def process():
+def dijkstraInfo():
 
 
     output = request.get_json()
