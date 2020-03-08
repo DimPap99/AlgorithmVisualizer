@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+<script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='styles/visualizer.css') }}">
+</head>
+
+<!-- Change Color on Node -->
+<script>
+ //   var css = 'table td:hover{ background-color: #00ff00 }';
+
+    var demoColors = ["#000000", "#FF0000"];
+    var demoFlag = true;
+    let startCellID = null;
+    let endCellID = null;
+
+
+
+    function myFunction()
+    {
+        console.log(names);
+        window.alert(names);
+        var demo = document.getElementById("49-24");
+        demo.style.background = demoColors[+demoFlag]
+        demoFlag = !demoFlag;
+    }
+</script>
+<script>
+
+    let pick_start_point = false;
+    let picked_start = false;
+
+    function pickStartPoint(){
+
+        if(pick_start_point == false && picked_start == false){
+            pick_start_point = true;
+
+            if ( document.getElementById(startCellID).classList.contains('start') ){
+            document.getElementById(startCellID).classList.remove('start');}
+            names = []
+        }
+        else if (picked_start){
+            pick_start_point = false;
+            picked_start = false;
+            if ( document.getElementById(startCellID).classList.contains('start') ){
+            document.getElementById(startCellID).classList.remove('start');}
+
+        }
+    }
+    let pick_end_point = false;
+    let picked_end = false;
+    function pickEndPoint() {
+
+          if(pick_end_point == false && picked_end == false){
+            pick_end_point = true;
+            if ( document.getElementById(endCellID).classList.contains('end') ){
+            document.getElementById(endCellID).classList.remove('end');}
+
+        }
+        else if (picked_end){
+            pick_end_point = false;
+            picked_end = false;
+            if ( document.getElementById(endCellID).classList.contains('end') ){
+            document.getElementById(endCellID).classList.remove('end');}
+            document.getElementById(endCellID).classList.add('cell');
+
+        }
+    }
+
+</script>
+
+<div id="log"></div>
+<div>
+  <p>
+    <strong><span>click</span></strong>
+  </p>
+</div>
+<script>
+
+      $(document).ready(function() {
+        $('form').on('submit', function(event) {
+       $.ajax({
+          type: "POST",
+          contentType: "application/json;charset=utf-8",
+          url: "/runAlgo",
+          traditional: "true",
+          data: JSON.stringify([startCellID,endCellID]),
+          dataType: "json"
+          })
+        .done(function(data) {
+          $('#output').text(data.output).show();
+      });
+      event.preventDefault();
+      });
+});
+</script>
+<!-- get id of Node on Click -->
+<script>
+    $(document).on('click', '.cell', function ( event ) {
+        if(pick_start_point == true){
+            var startPoint = document.getElementById(event.target.id);
+            startCellID = event.target.id;
+
+
+            document.getElementById(startCellID).classList.add('start');
+            pick_start_point = false;
+            picked_start = true;
+            console.log(startCellID)
+        }
+        if (pick_end_point == true){
+            var endPoint = document.getElementById(event.target.id);
+            endCellID = event.target.id;
+
+            document.getElementById(endCellID).classList.add('end');
+            pick_end_point = false;
+            picked_end = true;
+            console.log(endCellID)
+        }
+    $( "#log" ).html( "clicked: " + event.target.id );
+});
+</script>
+    <body>
+    <form action="/runAlgo" method="POST">
+    <button type="button" onclick="myFunction()">Click Me!</button>
+    <button type="button" onclick="pickStartPoint()">Choose A Start Point!</button>
+    <button type="button" onclick="pickEndPoint()">Choose An End Point!</button>
+    <input type="submit" value="Submit" id='submit'>
+    </form>
+        <div style="width:600px; margin:0 auto;">
+
+                <div class="content">
+                {% for key, value in nodes.items() %}
+                    {{value.draw() | safe}}
+                {% endfor %}
+
+
+                </div>
+
+        </div>
+    </br>
+<div id="output"></div>
+</br>
+    </body>
+</html>
