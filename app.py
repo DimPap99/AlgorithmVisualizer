@@ -24,19 +24,21 @@ def add_header(response):
 
 
 
-
 @app.route('/')
+def mainPage():
+    return flask.render_template("mainpage.html",algorithm="Algorithm")
+@app.route('/dijkstra')
 def dijkstraNodes():
 
 
-    for col in range(0, 25):
+    for col in range(0, 30):
         for rows in range(0, 50):
             node = Node(col, rows)
 
             nodes_dict1[str(node.column) + '-' + str(node.row)] = node
 
     # Fill the neighbors list for every node
-    for col in range(0, 25):
+    for col in range(0, 30):
         for row in range(0, 50):
             # current node id is the col - row
             key = str(col) + '-' + str(row)
@@ -52,7 +54,7 @@ def dijkstraNodes():
                 if key2 in nodes_dict1:
                     current_node.neighbors.append(key2)
 
-    return flask.render_template('mainPage.html', nodes = nodes_dict1)
+    return flask.render_template('dijkstra.html', nodes = nodes_dict1, algorithm= "Dijkstra")
 
 
 

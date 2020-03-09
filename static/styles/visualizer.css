@@ -4,7 +4,7 @@
     grid-row-gap: 1px;
     grid-column-gap: 1px;
     grid-template-columns: repeat(50, 1fr);
-    grid-template-rows: repeat(25, 1fr);
+    grid-template-rows: repeat(30, 1fr);
     grid-gap: 3px;
     max-width: 360px;
 
@@ -14,7 +14,7 @@
 .cell {
             text-align: center;
 			background: #c0ede7;
-			padding: 5px;
+			padding: 6px;
 		}
 .cell:hover{
      background-color: yellow;
@@ -24,7 +24,7 @@
 .wall {
             text-align: center;
 			background: #040505;
-			padding: 5px;
+			padding: 6px;
 		}
 
 
@@ -32,7 +32,7 @@
 .start {
             text-align: center;
 			background: #171eed;
-			padding: 5px;
+			padding: 6px;
 		}
 .start:hover{
      background-color: #ff0c16;
@@ -41,7 +41,7 @@
 .end {
             text-align: center;
 			background: #1ac638;
-			padding: 5px;
+			padding: 6px;
 		}
 .end:hover{
      background-color: #ff980f;
@@ -50,11 +50,11 @@
 
 .neighbor {
             text-align: center;
-			background: #b2ed0b;
-			padding: 5px;
+
+			padding: 6px;
             text-align: center;
 			background: #0bedc7;
-			padding: 5px;
+
             animation-name: neighborAnimation;
             animation-duration: 1.5s;
             animation-timing-function: ease-out;
@@ -73,7 +73,7 @@
 .path {
             text-align: center;
 			background: #0bedc7;
-			padding: 5px;
+			padding: 6px;
             animation-name: shortestPath;
             animation-duration: 1.5s;
             animation-timing-function: ease-out;

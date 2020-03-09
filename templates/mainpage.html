@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{% extends "base.html" %}
+
+<body>
+{% block header %}
+
+
+ <div class="form-group" style="margin-top: 60px;">
+    <select onchange="location.href='/'+this.value; " class="custom-select" style="background-color: rgba(8,13,30,0.76); color: #ffce11" required>
+      <option value="">Select Algorithm</option>
+      <option value="dijkstra">Dijkstra</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+  </div>
+
+  {% endblock header %}
+</body>
+</html>
