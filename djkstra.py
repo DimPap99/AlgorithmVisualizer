@@ -3,7 +3,6 @@ from collections import deque
 from Node import *
 
 
-
 def visitNeighbors(node:Node, graph, end_point):
     visited_nodes = []
     end_point_Found = False
@@ -18,22 +17,26 @@ def visitNeighbors(node:Node, graph, end_point):
         if neighbor_id == end_point.getNodeid():
             visited_nodes.append(neighbor)
             end_point.distance = node.distance + 1
-            print("Found the end point")
+           # print("Found the end point")
             end_point_Found = True
             break
         if not neighbor.is_wall and not neighbor.is_visited:
             neighbor.distance = node.distance + 1
             neighbor.is_visited = True
             visited_nodes.append(neighbor)
+        if neighbor.is_wall:
+            neighbor.distance = 999999999
     #l = []
     #for node in visited_nodes:
        # l.append(node.getNodeid())
       #  if node.getNodeid() == '2-0':
      #       print(node.is_visited)
     #print(l)
+
     return visited_nodes, end_point_Found
 
 def djikstra(graph, start_point, end_point):
+    traped = False
     start_point.is_visited = True
     start_point.distance = 0
     visited_nodes_in_order, end_point_Found = visitNeighbors(start_point, graph, end_point)
@@ -49,9 +52,10 @@ def djikstra(graph, start_point, end_point):
         i += 1
 
 
+    if not end_point_Found:
+        traped = True
 
-
-    return visited_nodes_in_order
+    return visited_nodes_in_order,traped
 
 
 
@@ -69,12 +73,15 @@ def findShortestPath(start_point: Node, end_point: Node, graph, neighbors):
     # min_neighbor and it becomes the next current_node. The previous current_node is removed from our neighbors
     # list. if at some point we reach a node that is a neighbor of our start_point this means that its the closest
     # one distance wise And we break the loop.Its time we add to our shortest path the min_neighbor we find.
+
     try:
         while True:
 
             for neighbor in neighbors:
 
-                if neighbor.distance < current_node.distance and neighbor.getNodeid() in current_node.neighbors:
+                if neighbor.distance == "infinity" or current_node.distance == "infinity":
+                    continue
+                if neighbor.distance < current_node.distance and neighbor.getNodeid() in current_node.neighbors and not neighbor.is_wall:
 
                     min_distance = min_distance + neighbor.distance
                     min_neighbor = neighbor
@@ -94,9 +101,12 @@ def findShortestPath(start_point: Node, end_point: Node, graph, neighbors):
         return shortest_path
 
     except AttributeError:
-        print("An error occured")
+        print("An error occured.The walls probably traped the start point!")
         return None
 
+def addWalls(walls_id :list, graph):
+    for node_id in walls_id:
+        graph[node_id].is_wall = True
 
 
 

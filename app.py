@@ -60,19 +60,24 @@ def dijkstraNodes():
 @app.route('/runAlgo',methods= ['POST'])
 def dijkstraInfo():
 
-
+    # output contains the start/end node id in 0 nad 1 location respectively
+    # in location 2 it containts the ids of the wall nodes
     output = request.get_json()
-
-    neighbors = djikstra(nodes_dict1, nodes_dict1[output[0]], nodes_dict1[output[1]])
+    walls = output[2]
+    addWalls(walls,nodes_dict1)
+    res = djikstra(nodes_dict1, nodes_dict1[output[0]], nodes_dict1[output[1]])
+    neighbors = res[0]
+    traped =  res[1]
     neighbors_list = []
     for node in neighbors:
         neighbors_list.append(node.getNodeid())
-    #print(neighbors_list)
+
 
     path = findShortestPath( nodes_dict1[output[0]], nodes_dict1[output[1]], nodes_dict1, neighbors)
     path_list = []
-    for node in path:
-        path_list.append(node.getNodeid())
+    if not traped:
+        for node in path:
+            path_list.append(node.getNodeid())
 
     if output:
         return jsonify({'output':json.dumps([neighbors_list,path_list])})

@@ -81,7 +81,7 @@ function clearGraph(){
           contentType: "application/json;charset=utf-8",
           url: "/runAlgo",
           traditional: "true",
-          data: JSON.stringify([startCellID,endCellID]),
+          data: JSON.stringify([startCellID,endCellID,walls]),
           dataType: "json"
           })
         .done(function(data) {
@@ -95,20 +95,7 @@ function clearGraph(){
           var finishedNeighbors = false;
           var j = 0;
           //Draw the nodes.
-          function drawPath(){
-              setTimeout(function () {
-                 // console.log(lists[i])
-                  if(shortestPath[j] != endCellID && shortestPath[j]!= startCellID){
-                  document.getElementById(shortestPath[j]).classList.add('path');}
-
-                  j++;
-                  if(j<shortestPath.length){
-                      drawPath();
-                  }
-              },75)
-          }
-
-          function draw(){
+            function draw(){
               setTimeout(function () {
                   console.log(lists[i])
                   if(neighbors[i] != endCellID){
@@ -122,6 +109,21 @@ function clearGraph(){
               },15)
           }
           draw();
+          function drawPath(){
+              setTimeout(function () {
+                 // console.log(lists[i])
+                  if(shortestPath[j] != endCellID && shortestPath[j]!= startCellID){
+                  document.getElementById(shortestPath[j]).classList.add('path');}
+
+                  j++;
+                  if(j<shortestPath.length){
+                      drawPath();
+                  }
+              },75)
+          }
+          console.log(neighbors)
+
+
 
 
 
