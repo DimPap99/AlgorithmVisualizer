@@ -3,8 +3,7 @@ import flask
 from flask import request
 from flask_cors import CORS
 import Node
-import json
-from djkstra import *
+from Algorithms.djkstra import *
 app = Flask(__name__)
 nodes_dict1 = dict()
 
