@@ -21,6 +21,13 @@
 }
 
 
+.wall {
+            text-align: center;
+			background: #040505;
+			padding: 5px;
+		}
+
+
 
 .start {
             text-align: center;

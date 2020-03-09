@@ -5,6 +5,8 @@ function clearGraph(){
         location.reload();
         return false;
 }
+    let create_walls = false;
+    let walls = [];
     let startCellID = null;
     let endCellID = null;
     let pick_start_point = false;
@@ -49,6 +51,23 @@ function clearGraph(){
 
         }
     }
+
+    //to check if our mouse is down or up
+ //when the mouse is down the mouseDown variable is 1
+ //when its up mouseDown is 0
+ let stop_walls = false;
+ let mouseDown = 0;
+
+    document.onmousedown = function () {
+        ++mouseDown;
+
+ }
+  document.onmouseup = function () {
+        if(stop_walls){
+            create_walls = false;
+        }
+        --mouseDown;
+ }
 
 
 
@@ -117,6 +136,11 @@ function clearGraph(){
       });
 });
 
+    function addWalls(){
+        create_walls = true;
+
+    }
+
     $(document).on('click', '.cell', function ( event ) {
         if(pick_start_point == true){
             var startPoint = document.getElementById(event.target.id);
@@ -137,5 +161,25 @@ function clearGraph(){
             picked_end = true;
             console.log(endCellID)
         }
+    $( "#log" ).html( "clicked: " + event.target.id );
+});
+
+//Listener on mouseover for cells
+// once the boolean create_walls == true
+// dragging our mouse over cells while the mouse is down will cause
+// the cells to become walls.
+
+    $(document).on("mouseover", '.cell', function ( event ) {
+        if (mouseDown && create_walls){
+        //after we have clicked on create walls and tried to create at least one
+        //if we let the mouse up then we stop creating walls
+        stop_walls = true;
+        let CellID = event.target.id;
+        document.getElementById(CellID).classList.add('wall');
+        walls.push(CellID);}
+        // if the mouse is up after create walls
+
+        //console.log(CellID);
+
     $( "#log" ).html( "clicked: " + event.target.id );
 });

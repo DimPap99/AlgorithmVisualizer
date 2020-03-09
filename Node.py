@@ -24,7 +24,5 @@ class Node():
         return str(self.column) + "-" + str(self.row)
 
     def draw(self):
-        if self.is_visited == False and self.is_start == False:
-            return "<div class='cell' id='"+str(self.column)+"-"+str(self.row)+"'></div>"
-        elif self.is_visited == True and self.is_start == True:
-            return "<div class='cell' id='" + str(self.column) + "-" + str(self.row) + "'></div>"
+
+        return "<div class='cell' id='"+str(self.column)+"-"+str(self.row)+"' ></div>"
