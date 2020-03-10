@@ -55,8 +55,9 @@ def dijkstraNodes():
 
     return flask.render_template('dijkstra.html', nodes = nodes_dict1, algorithm= "Dijkstra")
 
-
-
+@app.route('/SortAlgorithms')
+def sortAlgorithms():
+    return flask.render_template("sortAlgorithms.html",algorithm="Sort Algorithms")
 
 @app.route('/runAlgo',methods= ['POST'])
 def dijkstraInfo():

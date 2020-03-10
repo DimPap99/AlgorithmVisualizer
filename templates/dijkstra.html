@@ -41,7 +41,23 @@
     Choose the <strong>Find Path</strong> button to start discovering neighbor nodes until the Ending Node is found and the shortest<br>
             path back to the Start Node is generated! You can use the <strong>Clear</strong> button to clear the grid.</p>
     </div>
-    <div class="container" style="margin-top: 40px;">
+
+
+</div>
+<div class="container" style="margin-top: 40px;">
+        <div class="slidecontainer">
+  <input type="range" min="1" max="150" value="135"  class="slider" id="myRange">
+            <p>Animation Speed: <span id="demo"></span></p></div>
+    <script>
+        var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+  return this.value
+}
+</script>
         <div style="width:600px; margin:0 auto;">
 
                 <div class="content">
@@ -59,5 +75,7 @@
 
 <div id="output"></div>
 </br>
+
+
     </body>
 </html>

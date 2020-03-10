@@ -1,6 +1,5 @@
  //   var css = 'table td:hover{ background-color: #00ff00 }';
 
-
 function clearGraph(){
         location.reload();
         return false;
@@ -85,6 +84,7 @@ function clearGraph(){
           dataType: "json"
           })
         .done(function(data) {
+            let timeout = output.innerHTML;
           //$('#output').text(data.output).show();
           // lists contains two sublists. In index 0 all the neighbors in sorted order. In index 1 the shortest path.
           let lists = JSON.parse(data.output);
@@ -97,6 +97,7 @@ function clearGraph(){
           //Draw the nodes.
             function draw(){
               setTimeout(function () {
+                  timeout = output.innerHTML;
                   console.log(lists[i])
                   if(neighbors[i] != endCellID){
                   document.getElementById(neighbors[i]).classList.add('neighbor');}
@@ -106,7 +107,7 @@ function clearGraph(){
                   if(i<neighbors.length){
                       draw();
                   }else drawPath();
-              },15)
+              },150 - timeout )
           }
           draw();
           function drawPath(){
@@ -185,3 +186,6 @@ function clearGraph(){
 
     $( "#log" ).html( "clicked: " + event.target.id );
 });
+
+
+
