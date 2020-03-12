@@ -3,6 +3,7 @@ import flask
 from flask import request
 from flask_cors import CORS
 import Node
+from Algorithms.SortAlgorithms import *
 from Algorithms.djkstra import *
 app = Flask(__name__)
 nodes_dict1 = dict()
@@ -58,6 +59,16 @@ def dijkstraNodes():
 @app.route('/SortAlgorithms')
 def sortAlgorithms():
     return flask.render_template("sortAlgorithms.html",algorithm="Sort Algorithms")
+
+@app.route('/SortArray',methods=['POST'])
+def sortResult():
+    try:
+        output = request.get_json()
+        swaps = insertionSort(output)
+        return jsonify({'output': json.dumps(swaps)})
+    except (TypeError,ValueError) as e:
+        print("An error occured. " + str(e))
+        return jsonify({'error' : 'Wrong data!'})
 
 @app.route('/runAlgo',methods= ['POST'])
 def dijkstraInfo():
