@@ -1,33 +1,35 @@
 function generateArray(min,max,elements_number) {
-
-    if(!!document.getElementById("Arrcontainer")){
-        document.body.removeChild(document.getElementById("Arrcontainer"));
-    }
-    let index;
-    let table = document.createElement('table');
-    let div_container = document.createElement('div');
-    div_container.id = "Arrcontainer";
-    div_container.classList.add("array-container")
+    //Remove pre existing divs before creating new ones
+    document.getElementById("array").innerHTML = '';
     let num_array = [];
-
-     for (index = 0; index < elements_number;index++){
-         num_array.push(randomIntFromInterval(min,max));
-     }
-
-
-    for (index = 0; index < elements_number;index++){
-
-        var td1 = document.createElement('td');
-        td1.style.border = "2px solid";
-        td1.backgroundColor ="red";
-        td1.style.height = index.toString()+"px";
-
-        var text1 = document.createTextNode( num_array[index]);
-        td1.appendChild(text1);
-        table.appendChild(td1);
+    for(let i =0;i<elements_number;i++){
+        let num = randomIntFromInterval(min,max);
+        while (num_array.includes(num)) {
+            num = randomIntFromInterval(min,max);
+        }
+        num_array.push(num)
     }
-    div_container.appendChild(table)
-    document.body.appendChild(div_container);
+  $(document).ready(function () {
+    for (let i = 0; i < elements_number; i++) {
+        let color = "rgb("+(num_array[i]*5 + 150).toString() +','+(num_array[i]*2 + 100).toString() +',' +(num_array[i]).toString() + ');';
+        let style = "style='float: left;background-color:"+color+"height:" +(num_array[i] + 25).toString()+"px;"+"border: 1px solid;'";
+        let id = " id='"+num_array[i].toString()+"' "
+
+        $("#array").append("<div"+id+style+">"+num_array[i]+" </div>");
+    }
+
+
+
+});
+
+
+}
+
+function test() {
+   let div = document.getElementById("1");
+   div.style.height = "100px";
+
+   alert(div);
 
 }
 
