@@ -22,4 +22,7 @@ def insertionSort(num_array):
        # print(num_array)
     return swaps
 
+def quickSort(num_array):
+    pass
+
 

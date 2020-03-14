@@ -64,8 +64,9 @@ def sortAlgorithms():
 def sortResult():
     try:
         output = request.get_json()
-        swaps = insertionSort(output)
-        return jsonify({'output': json.dumps(swaps)})
+        if output[1] == "Insertion Sort":
+            swaps = insertionSort(output[0])
+            return jsonify({'output': json.dumps(swaps)})
     except (TypeError,ValueError) as e:
         print("An error occured. " + str(e))
         return jsonify({'error' : 'Wrong data!'})

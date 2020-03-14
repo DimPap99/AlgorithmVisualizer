@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='styles/visualizer.css') }}">
 </head>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 {% extends "base.html" %}
 
 <body>
 {% block header %}
 
 
- <div class="form-group" style="margin-top: 60px;">
+ <div class="form-group"  style="margin-top: 60px;">
     <select onchange="location.href='/'+this.value; " class="custom-select" style="background-color: rgba(8,13,30,0.76); color: #ffce11" required>
       <option value="">Select Algorithm</option>
       <option value="dijkstra">Dijkstra</option>
@@ -19,6 +22,12 @@
     </select>
   </div>
 
+
   {% endblock header %}
+
+{% block content %}
+
+
+{% endblock %}
 </body>
 </html>

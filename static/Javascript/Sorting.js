@@ -1,4 +1,10 @@
 
+
+function Clear(){
+        location.reload();
+        return false;
+}
+
 let num_array = [];
 function generateArray(min,max,elements_number) {
     //Remove pre existing <div> tags before creating new ones by removing the innerhtml of our container
@@ -23,16 +29,19 @@ function generateArray(min,max,elements_number) {
 }
 
 $(document).ready(function() {
+
         $('form').on('submit', function(event) {
        $.ajax({
           type: "POST",
           contentType: "application/json;charset=utf-8",
           url: "/SortArray",
           traditional: "true",
-          data: JSON.stringify(num_array),
+          data: JSON.stringify([num_array,changeSelect()]),
           dataType: "json"
           })
         .done(function(data) {
+
+
             let timeout = output.innerHTML;
             //works recursively in the same way that we draw in pathfinding.js
             // while i < swaps.lenght ----> the if clause
@@ -60,7 +69,12 @@ $(document).ready(function() {
 
 
 
-
+function changeSelect() {
+    let selectTag = document.getElementById("algorithm");
+    let choice = selectTag.options[selectTag.selectedIndex].value;
+    alert(choice);
+    return choice
+}
 
 
 
@@ -90,3 +104,4 @@ function randomIntFromInterval(min, max) {
   // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
