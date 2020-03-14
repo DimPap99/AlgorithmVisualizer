@@ -42,9 +42,17 @@ def sortAlgorithms():
 @app.route('/SortArray', methods=['POST'])
 def sortResult():
     try:
+
         output = request.get_json()
         if output[1] == "Insertion Sort":
+            swaps = []
             swaps = insertionSort(output[0])
+            return jsonify({'output': json.dumps(swaps)})
+        if output[1] == "Quick Sort":
+            swaps = []
+            quickSort(output[0], 0, len(output[0]) - 1, swaps)
+
+
             return jsonify({'output': json.dumps(swaps)})
     except (TypeError, ValueError) as e:
         print("An error occured. " + str(e))

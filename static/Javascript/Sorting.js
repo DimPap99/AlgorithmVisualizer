@@ -19,7 +19,7 @@ function generateArray(min,max,elements_number) {
     }
   $(document).ready(function () {
     for (let i = 0; i < elements_number; i++) {
-        let color = "rgb("+(num_array[i]*5 + 150).toString() +','+(num_array[i]*2 + 100).toString() +',' +(num_array[i]).toString() + ');';
+        let color = "rgb("+(num_array[i]*4 + 150).toString() +','+(num_array[i]*2 + 100).toString() +',' +(num_array[i]).toString() + ');';
         let style = "style='float: left;background-color:"+color+"height:" +(num_array[i] + 40).toString()+"px;"+"border: 1px solid;'";
         let id = " id='"+num_array[i].toString()+"' "
         $("#array").append("<div"+id+style+">"+num_array[i]+" </div>");
@@ -72,7 +72,6 @@ $(document).ready(function() {
 function changeSelect() {
     let selectTag = document.getElementById("algorithm");
     let choice = selectTag.options[selectTag.selectedIndex].value;
-    alert(choice);
     return choice
 }
 
@@ -80,6 +79,7 @@ function changeSelect() {
 
 
 function draw(index1,index2) {
+        console.log("Swap");
         let temp = num_array[index1];
         num_array[index1] = num_array[index2];
         num_array[index2] = temp;
