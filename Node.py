@@ -1,10 +1,4 @@
-class Node():
-
-    is_visited = False
-    is_start = False
-    is_end = False
-    is_Wall = False
-    distance = "inf"
+class Node:
 
     def __init__(self, column, row):
         self.column = column
