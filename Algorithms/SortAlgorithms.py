@@ -37,7 +37,6 @@ def partition(num_array, low, high,swaps):
     print(swaps)
     return index
 
-swaps = []
 def quickSort(num_array, low, high,swaps):
 
     if low < high:
@@ -46,5 +45,12 @@ def quickSort(num_array, low, high,swaps):
         quickSort(num_array, low, pivot - 1,swaps)
         quickSort(num_array, pivot + 1, high,swaps)
 
+def bubbleSort(num_array):
+    swaps = []
+    for i in range(len(num_array)):
+        for j in range(0, len(num_array) - i - 1):
+            if num_array[j] < num_array[j+1]:
+                num_array[j], num_array[j+1] = num_array[j+1], num_array[j]
+                swaps.append([j,j+1])
 
-
+    return swaps
