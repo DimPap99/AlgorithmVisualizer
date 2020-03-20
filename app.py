@@ -38,23 +38,24 @@ def dijkstraNodes():
 def sortAlgorithms():
     return flask.render_template("sortAlgorithms.html", algorithm="Sort Algorithms")
 
-
+# output[0] ---> Our array
+# output[1] ---> The selected choice
 @app.route('/SortArray', methods=['POST'])
 def sortResult():
     try:
-
+        swaps = []
         output = request.get_json()
         if output[1] == "Insertion Sort":
-            swaps = []
             swaps = insertionSort(output[0])
             return jsonify({'output': json.dumps(swaps)})
         if output[1] == "Quick Sort":
-            swaps = []
             quickSort(output[0], 0, len(output[0]) - 1, swaps)
             return jsonify({'output': json.dumps(swaps)})
         if output[1] == "Bubble Sort":
-            swaps = []
             swaps = bubbleSort(output[0])
+            return jsonify({'output': json.dumps(swaps)})
+        if output[1] == "Selection Sort":
+            swaps = selectionSort(output[0])
             return jsonify({'output': json.dumps(swaps)})
     except (TypeError, ValueError) as e:
         print("An error occured. " + str(e))

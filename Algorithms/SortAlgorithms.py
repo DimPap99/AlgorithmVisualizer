@@ -34,7 +34,7 @@ def partition(num_array, low, high,swaps):
             index += 1
     num_array[index], num_array[high] = num_array[high], num_array[index]
     swaps.append([index, high])
-    print(swaps)
+
     return index
 
 def quickSort(num_array, low, high,swaps):
@@ -44,7 +44,8 @@ def quickSort(num_array, low, high,swaps):
 
         quickSort(num_array, low, pivot - 1,swaps)
         quickSort(num_array, pivot + 1, high,swaps)
-
+# iterates over the array 2 times and swaps adjacent elements that are not in correct order
+# Time Complexity O(n^2)
 def bubbleSort(num_array):
     swaps = []
     for i in range(len(num_array)):
@@ -53,4 +54,18 @@ def bubbleSort(num_array):
                 num_array[j], num_array[j+1] = num_array[j+1], num_array[j]
                 swaps.append([j,j+1])
 
+    return swaps
+
+# has a sorted subarray, and the main array.
+# keeps finding the min element in the main array and put it inside the subarray
+# Time Complexity O(n^2)
+def selectionSort(num_array):
+    swaps = []
+    for i in range(len(num_array)):
+        min_index = i
+        for j in range(i+1, len(num_array)):
+            if num_array[min_index] > num_array[j]:
+                min_index = j
+        num_array[i], num_array[min_index] = num_array[min_index], num_array[i]
+        swaps.append([i,min_index])
     return swaps
