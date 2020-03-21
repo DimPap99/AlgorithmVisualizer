@@ -1,4 +1,12 @@
 
+.gridContainer{
+    width: 600px;
+    height: 300px;
+    margin:0 auto;
+
+
+}
+
 .content {
     display: grid;
     grid-row-gap: 1px;
@@ -7,6 +15,10 @@
     grid-template-rows: repeat(30, 1fr);
     grid-gap: 3px;
     max-width: 360px;
+    position: absolute;
+    left: 40%;
+    center: 90%;
+    transform: translateX(-50%);
 
 }
 

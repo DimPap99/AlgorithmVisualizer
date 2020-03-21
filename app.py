@@ -28,7 +28,7 @@ def mainPage():
     return flask.render_template("mainpage.html", algorithm="Algorithm")
 
 
-@app.route('/dijkstra')
+@app.route('/PathFinding')
 def dijkstraNodes():
     graph.createNodes()
     return flask.render_template('dijkstra.html', nodes=graph.nodes_dict, algorithm="Dijkstra")

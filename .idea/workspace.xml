@@ -3,8 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="615f4db4-f198-4709-91aa-56b836497f3f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Algorithms/SortAlgorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Algorithms/SortAlgorithms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/Javascript/Sorting.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/Javascript/Sorting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/visualizer.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/visualizer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/dijkstra.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dijkstra.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/mainpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/mainpage.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sortAlgorithms.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sortAlgorithms.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,21 +24,6 @@
         <option value="Python Script" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>log</find>
-      <find>process</find>
-      <find>styles</find>
-      <find>event.target</find>
-      <find>addwa</find>
-      <find>walls</find>
-      <find>height</find>
-      <find>set</find>
-      <find>for</find>
-      <find>output</find>
-      <find>console</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -231,30 +219,37 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1830" height="401" key="GridCell.Tab.0.bottom" timestamp="1584691899019">
+    <state x="676" y="280" width="624" height="544" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1584772739776">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1830" height="401" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1584691899019" />
-    <state width="1830" height="401" key="GridCell.Tab.0.center" timestamp="1584691899019">
+    <state x="676" y="280" width="624" height="544" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1584772739776" />
+    <state width="1830" height="216" key="GridCell.Tab.0.bottom" timestamp="1584775825778">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1830" height="401" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1584691899019" />
-    <state width="1830" height="401" key="GridCell.Tab.0.left" timestamp="1584691899019">
+    <state width="1830" height="216" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1584775825778" />
+    <state width="1830" height="216" key="GridCell.Tab.0.center" timestamp="1584775825778">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1830" height="401" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1584691899019" />
-    <state width="1830" height="401" key="GridCell.Tab.0.right" timestamp="1584691899019">
+    <state width="1830" height="216" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1584775825778" />
+    <state width="1830" height="216" key="GridCell.Tab.0.left" timestamp="1584775825777">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1830" height="401" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1584691899019" />
-    <state x="482" y="188" key="SettingsEditor" timestamp="1584285206390">
+    <state width="1830" height="216" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1584775825777" />
+    <state width="1830" height="216" key="GridCell.Tab.0.right" timestamp="1584775825778">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="482" y="188" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1584285206390" />
-    <state x="649" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1584689899033">
+    <state width="1830" height="216" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1584775825778" />
+    <state x="482" y="188" key="SettingsEditor" timestamp="1584773285190">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="649" y="380" key="com.intellij.ide.util.TipDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1584689899033" />
+    <state x="482" y="188" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1584773285190" />
+    <state x="649" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1584772754428">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="649" y="380" key="com.intellij.ide.util.TipDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1584772754428" />
   </component>
 </project>

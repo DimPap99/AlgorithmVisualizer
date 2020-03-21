@@ -5,6 +5,7 @@ function Clear(){
         return false;
 }
 
+generatedArray = false;
 let num_array = [];
 function generateArray(min,max,elements_number) {
     //Remove pre existing <div> tags before creating new ones by removing the innerhtml of our container
@@ -16,6 +17,7 @@ function generateArray(min,max,elements_number) {
             num = randomIntFromInterval(min,max);
         }
         num_array.push(num)
+        generatedArray = true;
     }
   $(document).ready(function () {
     for (let i = 0; i < elements_number; i++) {
@@ -50,15 +52,18 @@ $(document).ready(function() {
             let swaps = JSON.parse(data.output);
             console.log(swaps);
             let i =0;
+            generatedArray = false;
             function test(){
             setTimeout(function () {
                 timeout = output.innerHTML;
-
+                // generatedArray lets the user re-generate an array while
+                //the previously generated array hadnt finished sorting, without any bugs.
+                if(!generatedArray){
                  if(i < swaps.length){
                   draw(swaps[i][0],swaps[i][1])}
                   i++;
                  test();
-
+                }
             },150 - timeout);}
             test();
 
@@ -79,7 +84,7 @@ function changeSelect() {
 
 
 function draw(index1,index2) {
-        console.log("Swap");
+
         let temp = num_array[index1];
         num_array[index1] = num_array[index2];
         num_array[index2] = temp;
