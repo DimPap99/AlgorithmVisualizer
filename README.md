@@ -1,2 +1,3 @@
 # AlgorithmVisualizer
-A visualizer for some of the algorithms shown in the Algorithm course i took using Python Flask  and Javascript.
+To install all the project's dependecies run:
+  <p> pip install -r requirements.txt </p>
