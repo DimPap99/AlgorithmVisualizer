@@ -4,6 +4,8 @@ class Node:
         self.row = row
         self.column = column
         self.is_wall = False
+        # cost of moving into this node
+        self.weight = 1
         # ids of the adjacent nodes (up, left, right, down), filled in by the Graph
         self.neighbors = []
 

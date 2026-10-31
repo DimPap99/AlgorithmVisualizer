@@ -1,20 +1,11 @@
+from Algorithms.Registry import Registry
+
+
 # Every sort algorithm is a SortAlgorithm subclass with a display name, which registers it automatically.
 # Subclasses implement sort() and move elements only through self.swap(), so the frontend can replay
 # the recorded swaps as an animation. Usage: SortAlgorithm.get("Quick Sort")(num_array).run()
-class SortAlgorithm:
-    registry = {}
-    name = None
-
-    def __init_subclass__(cls, **kwargs):
-        super().__init_subclass__(**kwargs)
-        if cls.name:
-            SortAlgorithm.registry[cls.name] = cls
-
-    @classmethod
-    def get(cls, name):
-        if name not in cls.registry:
-            raise ValueError("Unknown sort algorithm: " + str(name))
-        return cls.registry[name]
+class SortAlgorithm(Registry):
+    kind = "sort algorithm"
 
     def __init__(self, num_array):
         self.num_array = list(num_array)

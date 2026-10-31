@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 
+{# one group of number inputs per option of the select_id select that takes parameters, shown when it's selected #}
+{% macro paramInputs(select_id, registry) %}
+    {% for name, cls in registry.items() if cls.params %}
+    <span class="d-none" data-params="{{ select_id }}" data-option="{{ name }}">
+      {% for param, default in cls.params.items() %}
+        <label>{{ param }} <input type="number" step="any" class="form-control form-control-sm" name="{{ param }}" value="{{ default }}"></label>
+      {% endfor %}
+    </span>
+    {% endfor %}
+{% endmacro %}
+
 {% block head %}
     <script src="{{ url_for('static', filename='Javascript/visualizer.js') }}"></script>
     <script src="{{ url_for('static', filename='Javascript/pathfinding.js') }}"></script>
@@ -13,16 +24,34 @@
     <button type="button" class="btn btn-outline-warning" data-mode="start" onclick="setMode('start')">Choose A Start Point!</button>
     <button type="button" class="btn btn-outline-warning" data-mode="end" onclick="setMode('end')">Choose An End Point!</button>
     <button type="button" class="btn btn-outline-warning" data-mode="wall" onclick="setMode('wall')">Add Walls!</button>
+    <button type="button" class="btn btn-outline-warning" data-mode="weight" onclick="setMode('weight')">Add Weights!</button>
     <button type="button" class="btn btn-outline-warning" onclick="findPath()">Find Path</button>
 
     </div>
-<div class="form-group" style="margin:0 auto;" >
-    <select  class="custom-select" id="algorithm" style="background-color: rgba(8,13,30,0.76); color: #ffce11" required>
-      {% for name in algorithms %}
-      <option value="{{ name }}">{{ name }}</option>
+<div class="form-group form-inline controls" style="margin:0 auto;" >
+    <select  class="custom-select" id="algorithm" style="background-color: rgba(8,13,30,0.76); color: #ffce11" onchange="algorithmChanged()" required>
+      {% for name, cls in algorithms.items() %}
+      <option value="{{ name }}" data-min-weight="{{ [cls.min_weight, -max_weight]|max }}">{{ name }}</option>
       {% endfor %}
     </select>
+    {{ paramInputs('algorithm', algorithms) }}
   </div>
+<div class="col-12 form-inline controls">
+    <label>Custom weight
+        <input type="number" id="weight-value" class="form-control form-control-sm" max="{{ max_weight }}" value="5">
+    </label>
+    <span id="weight-range"></span>
+    <label>Distribution
+        <select id="distribution" class="custom-select custom-select-sm" onchange="showParams('distribution')">
+          {% for name in distributions %}
+          <option value="{{ name }}">{{ name }}</option>
+          {% endfor %}
+        </select>
+    </label>
+    {{ paramInputs('distribution', distributions) }}
+    <button type="button" class="btn btn-sm btn-outline-warning" onclick="generateWeights()">Generate Weights</button>
+    <button type="button" class="btn btn-sm btn-outline-warning" onclick="clearWeights()">Clear Weights</button>
+</div>
 
 
     {% endblock header %}
@@ -32,17 +61,17 @@
     <h4>Instructions:</h4>
         <p><strong>Choose a Start Point</strong> and an <strong>End point</strong> by clicking on the respective button and then on a cell.<br>
     <strong>Add walls</strong> (optional) by holding your mouse button down while dragging it across the grid. Dragging from a wall erases walls.<br>
+    <strong>Add weights</strong> (optional) the same way with the custom weight, or <strong>generate</strong> them from a distribution. Moving into a cell costs its weight.<br>
+    Only <strong>Bellman-Ford</strong> allows negative weights. If going around some cells lowers the cost each time (a negative cycle), there is no cheapest path and it highlights the cycle.<br>
     Choose the <strong>Find Path</strong> button to watch the selected algorithm discover nodes until the End Point is found and the<br>
             path back to the Start Point is drawn! You can use the <strong>Clear</strong> button to clear the grid.</p>
     </div>
 
 
 <div class="container" style="margin-top: 40px;">
-        <div class="slidecontainer">
-            <input type="range" min="1" max="150" value="135"  class="slider" id="myRange">
-            <p>Animation Speed: <span id="demo"></span></p>
-        </div>
+        {% include "speedSlider.html" %}
         <p id="status"></p>
+        <p class="weight-legend invisible">Weight <span id="weight-min"></span> <span id="weight-legend-bar"></span> <span id="weight-max"></span></p>
 </div>
 
         <div class="gridContainer">
