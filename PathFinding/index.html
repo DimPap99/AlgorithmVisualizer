@@ -11,6 +11,7 @@
   <script type="module" src="../static/Javascript/runtime-client.mjs"></script>
   <script src="../static/Javascript/visualizer.js"></script>
   <script src="../static/Javascript/pathfinding.js"></script>
+  <script defer src="../static/Javascript/algorithm-guide.js"></script>
 
 </head>
 <body>
@@ -126,7 +127,7 @@
   <p id="status" role="status" aria-live="polite"></p>
   <p class="weight-legend invisible">Weight <span id="weight-min"></span> <span id="weight-legend-bar"></span> <span id="weight-max"></span></p>
 </div>
-<div class="grid-legend" aria-label="Cell colors"><span><i class="legend-start"></i>Start</span><span><i class="legend-end"></i>End</span><span><i class="legend-wall"></i>Wall</span><span><i class="legend-visited"></i>Visited</span><span><i class="legend-path"></i>Path</span></div>
+<div class="grid-legend" aria-label="Cell colors"><span><i class="legend-start" aria-hidden="true"></i>Start</span><span><i class="legend-end" aria-hidden="true"></i>End</span><span><i class="legend-wall" aria-hidden="true"></i>Wall</span><span><i class="legend-visited" aria-hidden="true"></i>Visited</span><span><i class="legend-path" aria-hidden="true"></i>Path</span></div>
 <div class="gridContainer">
   <div class="content" role="group" aria-label="Pathfinding grid" data-rows="30" data-columns="50" style="grid-template-columns: repeat(50, 16px);">
   
@@ -3132,6 +3133,18 @@
   
   </div>
 </div>
+<section class="algorithm-guide" aria-labelledby="guide-name" aria-busy="true" id="algorithm-guide">
+  <div class="guide-heading">
+    <h2 id="guide-name">Algorithm details</h2>
+    <p class="guide-complexity"><span>Worst-case time</span><code id="guide-time">Loading…</code></p>
+  </div>
+  <p id="guide-notation" class="guide-notation"></p>
+  <p id="guide-note"></p>
+  <details open>
+    <summary>Pseudocode (implemented variant)</summary>
+    <pre><code id="guide-pseudocode"></code></pre>
+  </details>
+</section>
 
     </main>
   </div>

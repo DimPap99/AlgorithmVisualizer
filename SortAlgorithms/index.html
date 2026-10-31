@@ -11,6 +11,7 @@
   <script type="module" src="../static/Javascript/runtime-client.mjs"></script>
   <script src="../static/Javascript/visualizer.js"></script>
   <script src="../static/Javascript/Sorting.js"></script>
+  <script defer src="../static/Javascript/algorithm-guide.js"></script>
   <link rel="stylesheet" href="../static/styles/sortingCSS.css">
 
 </head>
@@ -59,6 +60,18 @@
   <p id="status" role="status" aria-live="polite"></p>
 </div>
 <div class="array-wrapper"><div class="array-container" id="array" role="img" aria-label="Array values shown as vertical bars"></div></div>
+<section class="algorithm-guide" aria-labelledby="guide-name" aria-busy="true" id="algorithm-guide">
+  <div class="guide-heading">
+    <h2 id="guide-name">Algorithm details</h2>
+    <p class="guide-complexity"><span>Worst-case time</span><code id="guide-time">Loading…</code></p>
+  </div>
+  <p id="guide-notation" class="guide-notation"></p>
+  <p id="guide-note"></p>
+  <details open>
+    <summary>Pseudocode (implemented variant)</summary>
+    <pre><code id="guide-pseudocode"></code></pre>
+  </details>
+</section>
 
     </main>
   </div>
