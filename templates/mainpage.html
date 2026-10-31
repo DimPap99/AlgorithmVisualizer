@@ -1,16 +1,14 @@
 {% extends "base.html" %}
-
-{% block header %}
-
-
- <div class="form-group"  style="margin-top: 60px;">
-    <select onchange="location.href='/'+this.value; " class="custom-select" style="background-color: rgba(8,13,30,0.76); color: #ffce11" required>
-      <option value="">Select Algorithms</option>
-      <option value="PathFinding">PathFinding</option>
-      <option value="SortAlgorithms">Sort Algorithms</option>
-
-    </select>
-  </div>
-
-
-  {% endblock header %}
+{% block content %}
+<p class="intro">Interactive visualizations of sorting and pathfinding algorithms.</p>
+<div class="demo-list">
+  <section>
+    <h2><a href="{{ url_for('pathFinding') }}">Pathfinding →</a></h2>
+    <p>Compare searches on a grid. Set endpoints, draw walls, and assign weights.</p>
+  </section>
+  <section>
+    <h2><a href="{{ url_for('sortAlgorithms') }}">Sorting →</a></h2>
+    <p>Generate an array and replay the swaps made by each sorting algorithm.</p>
+  </section>
+</div>
+{% endblock %}

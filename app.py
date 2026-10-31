@@ -4,9 +4,9 @@ from Graph import Graph
 from Algorithms.SortAlgorithms import SortAlgorithm
 from Algorithms.PathFindingAlgorithms import PathFinder
 from WeightDistributions import WeightDistribution, MIN_WEIGHT, MAX_WEIGHT
+from visualizer_api import dispatch, GRID_ROWS, GRID_COLUMNS
 
 app = Flask(__name__)
-GRID_ROWS, GRID_COLUMNS = 30, 50
 
 CORS(app, resources={r'/*': {'origins': '*'}})
 
@@ -55,11 +55,7 @@ def sortAlgorithms():
 # Expects {"algorithm": name, "array": [numbers]} and returns {"swaps": [[index1, index2], ...]}
 @app.route('/SortArray', methods=['POST'])
 def sortResult():
-    data = getJson()
-    num_array = data.get('array')
-    if not isinstance(num_array, list) or not all(isinstance(num, (int, float)) for num in num_array):
-        raise ValueError("'array' must be a list of numbers")
-    return jsonify({'swaps': SortAlgorithm.get(data.get('algorithm'))(num_array).run()})
+    return jsonify(dispatch('/SortArray', getJson()))
 
 
 # Expects {"algorithm": name, "params": {name: value}, "start": id, "end": id, "walls": [ids],
@@ -68,30 +64,14 @@ def sortResult():
 # "cycle": {"nodes": [ids], "cost": cost of going around it once} or null} where cycle is a negative cycle
 @app.route('/runAlgo', methods=['POST'])
 def pathResult():
-    data = getJson()
-    start, end = data.get('start'), data.get('end')
-    walls = set(data.get('walls') or []) - {start, end}
-    weights = data.get('weights') or {}
-    if not isinstance(weights, dict):
-        raise ValueError("'weights' must map node ids to weights")
-    graph = Graph(GRID_ROWS, GRID_COLUMNS, walls, weights)
-    finder = PathFinder.get(data.get('algorithm'))(graph, start, end, data.get('params'))
-    visited, paths = finder.run()
-    cycle = finder.negative_cycle
-    return jsonify({'visited': visited, 'paths': [{'path': path, 'cost': graph.pathCost(path)} for path in paths],
-                    'cycle': {'nodes': cycle, 'cost': graph.pathCost(cycle + cycle[:1])} if cycle else None})
+    return jsonify(dispatch('/runAlgo', getJson()))
 
 
 # Expects {"distribution": name, "params": {name: value}, "min_weight": lowest weight allowed} and returns
 # {"weights": {id: weight}} for every grid node
 @app.route('/generateWeights', methods=['POST'])
 def generateWeights():
-    data = getJson()
-    min_weight = data.get('min_weight', MIN_WEIGHT)
-    if isinstance(min_weight, bool) or not isinstance(min_weight, (int, float)):
-        raise ValueError("'min_weight' must be a number")
-    distribution = WeightDistribution.get(data.get('distribution'))(data.get('params'))
-    return jsonify({'weights': distribution.weights(Graph(GRID_ROWS, GRID_COLUMNS).nodes_dict, min_weight)})
+    return jsonify(dispatch('/generateWeights', getJson()))
 
 
 if __name__ == '__main__':

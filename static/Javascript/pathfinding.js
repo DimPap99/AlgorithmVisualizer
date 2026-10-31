@@ -1,5 +1,4 @@
-// Path finding page: pick a start and an end point, draw walls and weights, then send the grid to Flask
-// and animate the nodes the chosen algorithm visited followed by the paths it found.
+// Edit a grid and animate the results returned by the selected Python algorithm.
 
 // colors of the weight gradient: from weight 1 (the normal cell color) up to the max weight on the grid,
 // and from weight 1 down to the min weight for the weights below 1 (which only some algorithms allow)
@@ -151,6 +150,7 @@ function customWeight() {
 }
 
 function algorithmChanged() {
+    clearPath();
     showParams('algorithm');
     // the custom weight and the generated weights only go below 1 for the algorithms that allow it
     let input = $('#weight-value');
@@ -196,8 +196,10 @@ function paint(id) {
 
 // In wall/weight mode pressing on a cell and dragging across the grid adds walls/the custom weight,
 // or erases them if the first cell already was a wall/had the custom weight.
-$(document).on('mousedown', '.cell', function (event) {
+$(document).on('pointerdown', '.cell', function (event) {
+    if (event.button !== 0) return;
     event.preventDefault();
+    focusCell(this);
     if (mode === 'start' || mode === 'end') {
         placePoint(this.id);
     } else if (mode === 'wall' || mode === 'weight') {
@@ -209,12 +211,39 @@ $(document).on('mousedown', '.cell', function (event) {
     }
 });
 
-$(document).on('mouseover', '.cell', function () {
+$(document).on('pointerover', '.cell', function () {
     if (mouseDown) paint(this.id);
 });
 
-$(document).on('mouseup', function () {
+$(document).on('pointermove', function (event) {
+    if (!mouseDown) return;
+    const target = document.elementFromPoint(event.clientX, event.clientY);
+    if (target?.classList.contains('cell')) paint(target.id);
+});
+
+$(document).on('pointerup pointercancel', function () {
     mouseDown = false;
+});
+
+function focusCell(element) {
+    $('.cell[tabindex="0"]').attr('tabindex', '-1');
+    element.tabIndex = 0;
+    element.focus({preventScroll: true});
+}
+
+$(document).on('keydown', '.cell', function (event) {
+    const [row, column] = this.id.split('-').map(Number);
+    const moves = {ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1]};
+    if (moves[event.key]) {
+        event.preventDefault();
+        const [dr, dc] = moves[event.key];
+        const target = cell((row + dr) + '-' + (column + dc));
+        if (target) { focusCell(target); target.scrollIntoView({block: 'nearest', inline: 'nearest'}); }
+    } else if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        $(this).trigger($.Event('pointerdown', {button: 0}));
+        mouseDown = false;
+    }
 });
 
 // a node visited again (Bellman-Ford updates nodes several times) replays its animation
@@ -242,10 +271,11 @@ function drawPaths(paths, onDone) {
 
 function findPath() {
     if (!startCellID || !endCellID) {
-        setStatus('Choose a start and an end point first!');
+        setStatus('Choose a start and an end point first.');
         return;
     }
     clearPath();
+    setStatus('Running…');
     let data = {algorithm: $('#algorithm').val(), params: readParams('algorithm'), start: startCellID, end: endCellID,
                 walls: Array.from(walls), weights: Object.fromEntries(weights)};
     let isPoint = id => id === startCellID || id === endCellID;
@@ -254,11 +284,11 @@ function findPath() {
         let visits = 'node visits: ' + result.visited.length;
         animate(result.visited.filter(id => !isPoint(id)), markVisited, function () {
             if (result.cycle) {
-                setStatus('Negative cycle! Going around the highlighted cells changes the cost by ' + result.cycle.cost +
+                setStatus('Negative cycle. Going around the highlighted cells changes the cost by ' + result.cycle.cost +
                           ' each time, so there is no cheapest path, ' + visits);
                 animate(result.cycle.nodes.filter(id => !isPoint(id)), id => cell(id).classList.add('cycle'));
             } else if (!result.paths.length) {
-                setStatus("The end point can't be reached! Node visits: " + result.visited.length);
+                setStatus("The end point can't be reached. Node visits: " + result.visited.length);
             } else {
                 drawPaths(result.paths, function () {
                     let best = result.paths[0];

@@ -1,4 +1,4 @@
-// Sorting page: generate a random array, send it to Flask and replay the swaps of the chosen sort algorithm.
+// Generate an array, run the selected Python algorithm, and animate its swaps.
 
 let num_array = [];
 
@@ -29,10 +29,10 @@ function generateArray(min, max, elements_number) {
 
 function sortArray() {
     if (!num_array.length) {
-        setStatus('Generate an array first!');
+        setStatus('Generate an array first.');
         return;
     }
-    setStatus('');
+    setStatus('Running…');
     postJson('/SortArray', {algorithm: $('#algorithm').val(), array: num_array}, function (data) {
         animate(data.swaps, function ([index1, index2]) {
             [num_array[index1], num_array[index2]] = [num_array[index2], num_array[index1]];
@@ -41,7 +41,7 @@ function sortArray() {
             drawBar(index2).classList.add('active');
         }, function () {
             $('.bar.active').removeClass('active');
-            setStatus('Sorted with ' + data.swaps.length + ' swaps!');
+            setStatus('Sorted with ' + data.swaps.length + ' swaps.');
         });
     }, setStatus);
 }
@@ -51,7 +51,7 @@ function drawBar(index) {
     let num = num_array[index];
     let bar = document.getElementById('array').children[index];
     bar.style.height = (num + 40) + 'px';
-    bar.style.backgroundColor = 'rgb(' + (num * 4 + 150) + ',' + (num * 2 + 100) + ',' + num + ')';
+    bar.style.backgroundColor = 'hsl(96, 28%, ' + (40 + num / 10) + '%)';
     bar.textContent = num;
     return bar;
 }

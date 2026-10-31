@@ -46,11 +46,25 @@ function animate(steps, drawStep, onDone) {
 
 function stopAnimation() {
     animationId++;
+    window.visualizerRuntime?.cancel();
 }
 
 // POSTs data as JSON and calls onSuccess(response) unless an animation was started or stopped in the meantime
 function postJson(url, data, onSuccess, onError) {
-    const id = ++animationId;
+    stopAnimation();
+    const id = animationId;
+    if (document.documentElement.dataset.runtime === 'browser') {
+        if (!window.visualizerRuntime) {
+            onError('Python is not available. Reload the page to try again.');
+            return;
+        }
+        window.visualizerRuntime.request(url, data).then(response => {
+            if (id === animationId) onSuccess(response);
+        }).catch(error => {
+            if (id === animationId) onError(error.message);
+        });
+        return;
+    }
     $.ajax({
         type: 'POST',
         url: url,

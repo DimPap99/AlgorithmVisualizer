@@ -1,43 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="en" data-runtime="{{ runtime | default('server') }}">
 <head>
-    <meta charset="UTF-8">
-    <title>{{ algorithm }} Visualizer</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/visualizer.css') }}">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    {% block head %}
-    {% endblock head %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141714">
+  <title>{{ algorithm }} Visualizer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/visualizer.css') }}">
+  <script src="{{ url_for('static', filename='vendor/jquery-3.7.1.min.js') }}"></script>
+  {% block head %}{% endblock %}
 </head>
 <body>
-
-
-    <div style="background-color: rgba(8,13,30,0.76);">
-    <div class="container">
-
-      <!-- Grid row-->
-      <div class="row py-4 d-flex align-items-center">
-
-        <!-- Grid column -->
-        <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
-          <h6 class="mb-0" style="color: white" >{{ algorithm }} Visualizer </h6>
-
-        </div>
-          {% block header %}
-            {% endblock header %}
-
-
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="{{ url_for('mainPage') }}">AlgorithmVisualizer</a>
+      <nav aria-label="Navigation">
+        <a href="{{ url_for('pathFinding') }}"{% if algorithm == 'Path Finding' %} aria-current="page"{% endif %}>Pathfinding</a>
+        <a href="{{ url_for('sortAlgorithms') }}"{% if algorithm == 'Sort Algorithms' %} aria-current="page"{% endif %}>Sorting</a>
+        <a href="https://dimpap99.github.io/">Blog</a>
+        <a href="https://github.com/DimPap99/AlgorithmVisualizer">Source</a>
+      </nav>
+    </header>
+    <main id="main">
+      <h1>{{ algorithm }} Visualizer</h1>
+      {% if runtime == 'browser' and algorithm != 'Algorithm' %}
+      <div class="runtime-banner">
+        <span id="runtime-status" role="status" aria-live="polite">Loading Python…</span>
+        <button id="runtime-retry" type="button" hidden>Retry</button>
       </div>
-      <!-- Grid row-->
-
-    </div>
+      {% endif %}
+      <noscript><p>Enable JavaScript to use the visualizations.</p></noscript>
+      {% block header %}{% endblock %}
+      {% block content %}{% endblock %}
+    </main>
   </div>
-    {% block content %}
-    {% endblock %}
-
-<!-- Footer -->
-<footer class="page-footer font-small blue pt-4"></footer>
-<!-- Footer -->
 </body>
 </html>

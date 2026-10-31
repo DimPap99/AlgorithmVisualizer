@@ -1,10 +1,72 @@
 # AlgorithmVisualizer
-To install all the project's dependecies run:
-            <br>
-                 
-          pip install -r requirements.txt
 
-Then start the app with `python app.py` and open http://127.0.0.1:5000.
+Interactive sorting and pathfinding algorithms, implemented in Python with JavaScript animations.
+
+**Live demo:** https://dimpap99.github.io/AlgorithmVisualizer/
+
+## Browser version / GitHub Pages
+
+The hosted version runs the existing Python algorithms through Pyodide in a Web Worker.
+It needs no Flask server. The Python runtime, JavaScript dependencies, and algorithm source
+are included in the static build and served from the same site. The first visit downloads
+the Python runtime; subsequent loads can reuse the browser cache.
+
+Requirements: Python 3.12+ and Node.js 22+.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+npm ci
+npm run build
+python3 -m http.server 8000 --directory dist
+```
+
+Open <http://localhost:8000>. Serve the build over HTTP; opening the HTML files directly
+will not load the module worker. `dist/` is generated and should not be committed.
+
+## Deploy an update
+
+After committing your source changes on `master`, run:
+
+```bash
+npm run deploy
+```
+
+This runs the Python and WebAssembly tests, builds `dist/`, pushes the source to
+`master`, and publishes the generated files to `gh-pages`. GitHub Pages automatically
+deploys that branch. A normal push to `master` updates the source repository;
+run `npm run deploy` when you want the live demo updated.
+
+The repository's Pages source is **Deploy from a branch → gh-pages → /(root)**.
+This uses GitHub's built-in Pages deployment and does not require permission to
+create custom Actions workflows. The deployment helper refuses uncommitted source
+changes and uses a temporary checkout without replacing your working files.
+
+New algorithm classes and distribution parameters appear in the generated controls
+on the next build. Keep changes in the Python source; do not edit generated files.
+
+## Flask version
+
+After installing the Python dependencies above:
+
+```bash
+python app.py
+```
+
+Open <http://127.0.0.1:5000>. Flask and the browser worker call the same functions in
+`visualizer_api.py`. The Flask version continues to use its JSON endpoints.
+
+## Tests
+
+```bash
+python -m unittest discover -s tests
+npm run build
+npm test
+```
+
+The Node tests execute the exported Python source with the actual Pyodide WebAssembly
+runtime, exercise the packaged worker, and check cancellation and startup errors.
 
 ## Algorithms
 - **Path Finding:** Dijkstra, A* Search, Greedy Best-First Search, Bidirectional Dijkstra, Yen's K Shortest Paths,
