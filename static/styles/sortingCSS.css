@@ -1,0 +1,4 @@
+.array-wrapper { overflow-x: auto; padding: 10px 0; }
+.array-container { display: flex; align-items: flex-end; justify-content: center; gap: 2px; min-width: 850px; min-height: 240px; margin: 5px auto 30px; }
+.bar { flex: 1; max-width: 29px; min-width: 14px; border: 1px solid #596850; text-align: center; color: #11180e; font-family: Consolas, monospace; font-size: 10px; }
+.bar.active { filter: brightness(1.5); outline: 1px solid #e9e6a6; }

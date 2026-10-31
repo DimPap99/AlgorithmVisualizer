@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" data-runtime="browser">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141714">
+  <title>Sort Algorithms Visualizer</title>
+  <link rel="stylesheet" href="../static/styles/visualizer.css">
+  <script src="../static/vendor/jquery-3.7.1.min.js"></script>
+  
+  <script type="module" src="../static/Javascript/runtime-client.mjs"></script>
+  <script src="../static/Javascript/visualizer.js"></script>
+  <script src="../static/Javascript/Sorting.js"></script>
+  <link rel="stylesheet" href="../static/styles/sortingCSS.css">
+
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="../">AlgorithmVisualizer</a>
+      <nav aria-label="Navigation">
+        <a href="../PathFinding/">Pathfinding</a>
+        <a href="../SortAlgorithms/" aria-current="page">Sorting</a>
+        <a href="https://dimpap99.github.io/">Blog</a>
+        <a href="https://github.com/DimPap99/AlgorithmVisualizer">Source</a>
+      </nav>
+    </header>
+    <main id="main">
+      <h1>Sort Algorithms Visualizer</h1>
+      
+      <div class="runtime-banner">
+        <span id="runtime-status" role="status" aria-live="polite">Loading Python…</span>
+        <button id="runtime-retry" type="button" hidden>Retry</button>
+      </div>
+      
+      <noscript><p>Enable JavaScript to use the visualizations.</p></noscript>
+      
+<div class="control-panel">
+  <div class="toolbar">
+    <button type="button" onclick="Clear()">Clear</button>
+    <button type="button" onclick="generateArray(1, 150, 50)">Generate array</button>
+    <button type="button" class="primary" data-runtime-action onclick="sortArray()" disabled>Sort</button>
+    <button type="button" onclick="stopAnimation(); setStatus('Stopped.');">Stop</button>
+    <label for="algorithm">Algorithm</label>
+    <select id="algorithm" onchange="stopAnimation(); setStatus('');">
+      <option value="Insertion Sort">Insertion Sort</option><option value="Quick Sort">Quick Sort</option><option value="Bubble Sort">Bubble Sort</option><option value="Selection Sort">Selection Sort</option><option value="Merge Sort">Merge Sort</option><option value="Heap Sort">Heap Sort</option><option value="Shell Sort">Shell Sort</option><option value="Cocktail Shaker Sort">Cocktail Shaker Sort</option><option value="Comb Sort">Comb Sort</option>
+    </select>
+  </div>
+</div>
+
+      
+<div class="result-controls">
+  <div class="slidecontainer">
+  <label for="speed">Speed</label>
+  <input type="range" min="0" max="100" step="any" value="50" id="speed">
+  <output id="speed-label" for="speed"></output>
+</div>
+  <p id="status" role="status" aria-live="polite"></p>
+</div>
+<div class="array-wrapper"><div class="array-container" id="array" role="img" aria-label="Array values shown as vertical bars"></div></div>
+
+    </main>
+  </div>
+</body>
+</html>
