@@ -1,22 +1,14 @@
 class Node:
 
-    def __init__(self, column, row):
-        self.column = column
+    def __init__(self, row, column):
         self.row = row
-        self.is_visited = False
-        self.is_start = False
-        self.is_end = False
+        self.column = column
         self.is_wall = False
-        self.distance = "infinity"
+        # ids of the adjacent nodes (up, left, right, down), filled in by the Graph
         self.neighbors = []
-        self.predecessor = {}
-
-    def set_is_start(self, is_start):
-        self.is_start = is_start
 
     def getNodeid(self):
-        return str(self.column) + "-" + str(self.row)
+        return str(self.row) + "-" + str(self.column)
 
     def draw(self):
-
-        return "<div class='cell' id='"+str(self.column)+"-"+str(self.row)+"' ></div>"
+        return "<div class='cell' id='" + self.getNodeid() + "'></div>"

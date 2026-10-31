@@ -1,25 +1,27 @@
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.page-footer {
+    margin-top: auto;
+    background-color: rgba(8,13,30,0.76);
+    width: 100%;
+    min-height: 8vh;
+}
+
 .gridContainer{
-    width: 600px;
-    height: 300px;
-    margin:0 auto;
-
-
+    margin: 0 auto 40px;
 }
 
 .content {
     display: grid;
-    grid-row-gap: 1px;
-    grid-column-gap: 1px;
-    grid-template-columns: repeat(50, 1fr);
-    grid-template-rows: repeat(30, 1fr);
     grid-gap: 3px;
-    max-width: 360px;
-    position: absolute;
-    left: 40%;
-    center: 90%;
-    transform: translateX(-50%);
-
+    width: max-content;
+    margin: 0 auto;
+    user-select: none;
 }
 
 
@@ -150,6 +152,11 @@
 
 .slidecontainer {
   width: 20%;
+}
+
+#status {
+  font-weight: bold;
+  min-height: 1.5em;
 }
 
 .slider {

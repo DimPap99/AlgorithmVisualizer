@@ -1,112 +1,66 @@
+// Sorting page: generate a random array, send it to Flask and replay the swaps of the chosen sort algorithm.
 
-
-function Clear(){
-        location.reload();
-        return false;
-}
-
-generatedArray = false;
 let num_array = [];
-function generateArray(min,max,elements_number) {
-    //Remove pre existing <div> tags before creating new ones by removing the innerhtml of our container
-    document.getElementById("array").innerHTML = '';
+
+$(function () {
+    generateArray(1, 150, 50);
+});
+
+function Clear() {
+    stopAnimation();
     num_array = [];
-    for(let i =0;i<elements_number;i++){
-        let num = randomIntFromInterval(min,max);
-        while (num_array.includes(num)) {
-            num = randomIntFromInterval(min,max);
-        }
-        num_array.push(num)
-        generatedArray = true;
-    }
-  $(document).ready(function () {
-    for (let i = 0; i < elements_number; i++) {
-        let color = "rgb("+(num_array[i]*4 + 150).toString() +','+(num_array[i]*2 + 100).toString() +',' +(num_array[i]).toString() + ');';
-        let style = "style='float: left;background-color:"+color+"height:" +(num_array[i] + 40).toString()+"px;"+"border: 1px solid;'";
-        let id = " id='"+num_array[i].toString()+"' "
-        $("#array").append("<div"+id+style+">"+num_array[i]+" </div>");
-    }
-
-});
+    $('#array').empty();
+    setStatus('');
 }
 
-$(document).ready(function() {
-
-        $('form').on('submit', function(event) {
-       $.ajax({
-          type: "POST",
-          contentType: "application/json;charset=utf-8",
-          url: "/SortArray",
-          traditional: "true",
-          data: JSON.stringify([num_array,changeSelect()]),
-          dataType: "json"
-          })
-        .done(function(data) {
-
-
-            let timeout = output.innerHTML;
-            //works recursively in the same way that we draw in pathfinding.js
-            // while i < swaps.lenght ----> the if clause
-            // we  increase i by one and call test on itself
-
-            let swaps = JSON.parse(data.output);
-            console.log(swaps);
-            let i =0;
-            generatedArray = false;
-            function test(){
-            setTimeout(function () {
-                timeout = output.innerHTML;
-                // generatedArray lets the user re-generate an array while
-                //the previously generated array hadnt finished sorting, without any bugs.
-                if(!generatedArray){
-                 if(i < swaps.length){
-                  draw(swaps[i][0],swaps[i][1])}
-                  i++;
-                 test();
-                }
-            },150 - timeout);}
-            test();
-
-      });
-      event.preventDefault();
-      });
-});
-
-
-
-function changeSelect() {
-    let selectTag = document.getElementById("algorithm");
-    let choice = selectTag.options[selectTag.selectedIndex].value;
-    return choice
+// fills the array with elements_number unique random numbers between min and max (both included)
+function generateArray(min, max, elements_number) {
+    stopAnimation();
+    elements_number = Math.min(elements_number, max - min + 1);
+    num_array = [];
+    while (num_array.length < elements_number) {
+        let num = randomIntFromInterval(min, max);
+        if (!num_array.includes(num)) num_array.push(num);
+    }
+    $('#array').html(num_array.map(() => "<div class='bar'></div>").join(''));
+    num_array.forEach((num, index) => drawBar(index));
+    setStatus('');
 }
 
+function sortArray() {
+    if (!num_array.length) {
+        setStatus('Generate an array first!');
+        return;
+    }
+    setStatus('');
+    postJson('/SortArray', {algorithm: $('#algorithm').val(), array: num_array}, function (data) {
+        animate(data.swaps, function ([index1, index2]) {
+            [num_array[index1], num_array[index2]] = [num_array[index2], num_array[index1]];
+            $('.bar.active').removeClass('active');
+            drawBar(index1).classList.add('active');
+            drawBar(index2).classList.add('active');
+        }, function () {
+            $('.bar.active').removeClass('active');
+            setStatus('Sorted with ' + data.swaps.length + ' swaps!');
+        });
+    }, setStatus);
+}
 
+// updates the bar at index to show num_array[index]
+function drawBar(index) {
+    let num = num_array[index];
+    let bar = document.getElementById('array').children[index];
+    bar.style.height = (num + 40) + 'px';
+    bar.style.backgroundColor = 'rgb(' + (num * 4 + 150) + ',' + (num * 2 + 100) + ',' + num + ')';
+    bar.textContent = num;
+    return bar;
+}
 
-
-function draw(index1,index2) {
-
-        let temp = num_array[index1];
-        num_array[index1] = num_array[index2];
-        num_array[index2] = temp;
-
-        let div1 = document.getElementById(num_array[index1].toString());
-        let div2 = document.getElementById(num_array[index2].toString());
-        //div1.classList.add("test");
-        let temp2_style = div1.style.cssText;
-        let temp3_innerHTML = div1.innerHTML;
-        let temp4 = div1.id;
-
-        div1.id = div2.id;
-        div1.style.cssText = div2.style.cssText;
-        div1.innerHTML = div2.innerHTML;
-        div2.id = temp4;
-        div2.style.cssText = temp2_style;
-        div2.innerHTML = temp3_innerHTML;
-
+function setStatus(message) {
+    $('#status').text(message);
 }
 
 function randomIntFromInterval(min, max) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
+    // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
-

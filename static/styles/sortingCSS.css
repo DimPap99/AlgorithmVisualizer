@@ -1,11 +1,18 @@
 .array-container {
-    position: absolute;
-    top: 50%;
-    left: 20%;
-    margin-top: -50px;
-    margin-left: -50px;
-    width: 1200px;
-    height: 1000px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 20px auto 40px;
 }
 
+.bar {
+    min-width: 24px;
+    border: 1px solid;
+    text-align: center;
+    font-size: 13px;
+}
 
+/* the two bars that were just swapped */
+.bar.active {
+    filter: brightness(0.6);
+}
