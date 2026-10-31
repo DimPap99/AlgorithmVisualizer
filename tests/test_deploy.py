@@ -1,4 +1,6 @@
 from pathlib import Path
+from contextlib import redirect_stdout
+from io import StringIO
 import tempfile
 import unittest
 
@@ -6,6 +8,11 @@ from scripts.deploy_pages import deploy, git
 
 
 class PublishingTests(unittest.TestCase):
+    def deploy_test_build(self):
+        # These deployments only touch temporary local bare repositories.
+        with redirect_stdout(StringIO()):
+            deploy(self.root)
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
@@ -29,14 +36,14 @@ class PublishingTests(unittest.TestCase):
         (self.output / 'index.html').write_text('First build')
 
     def test_first_publication_and_updates_preserve_history(self):
-        deploy(self.root)
+        self.deploy_test_build()
         first = git(self.remote, 'rev-parse', 'gh-pages')
         self.assertEqual(git(self.remote, 'show', 'gh-pages:index.html'), 'First build')
         (self.output / 'index.html').write_text('Second build')
-        deploy(self.root)
+        self.deploy_test_build()
         self.assertEqual(git(self.remote, 'show', 'gh-pages:index.html'), 'Second build')
         self.assertEqual(git(self.remote, 'rev-parse', 'gh-pages^'), first)
-        deploy(self.root)
+        self.deploy_test_build()
         self.assertEqual(git(self.root, 'status', '--porcelain'), '')
 
     def test_uncommitted_source_is_not_published(self):

@@ -1,10 +1,13 @@
 from html.parser import HTMLParser
+import json
 from pathlib import Path
 import tempfile
 import unittest
 from urllib.parse import urlsplit
 
 from scripts.build_pages import build
+from Algorithms.PathFindingAlgorithms import PathFinder
+from Algorithms.SortAlgorithms import SortAlgorithm
 
 
 class Links(HTMLParser):
@@ -54,3 +57,17 @@ class StaticBuildTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             build(other)
         self.assertEqual((other / 'keep.txt').read_text(), 'User data')
+
+    def test_every_available_algorithm_has_pseudocode_and_complexity(self):
+        guides = json.loads((self.output / 'static/data/algorithm-guides.json').read_text())
+        self.assertEqual(set(guides['algorithms']), set(SortAlgorithm.registry) | set(PathFinder.registry))
+        for name, guide in guides['algorithms'].items():
+            with self.subTest(algorithm=name):
+                self.assertTrue(guide['time'].startswith('O('))
+                self.assertGreater(len(guide['pseudocode']), 3)
+                self.assertTrue(guide['note'])
+                self.assertIn(guide['group'], guides['notation'])
+        for path in ('PathFinding/index.html', 'SortAlgorithms/index.html'):
+            html = (self.output / path).read_text()
+            self.assertEqual(html.count('id="algorithm-guide"'), 1)
+            self.assertIn('algorithm-guide.js', html)

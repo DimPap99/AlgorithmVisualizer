@@ -2,8 +2,8 @@
 
 // colors of the weight gradient: from weight 1 (the normal cell color) up to the max weight on the grid,
 // and from weight 1 down to the min weight for the weights below 1 (which only some algorithms allow)
-const WEIGHT_COLORS = ['#c0ede7', '#6da7ec', '#256abf', '#0d366b'];
-const LOW_WEIGHT_COLORS = ['#c0ede7', '#f4b6ae', '#e34948', '#8a1616'];
+const WEIGHT_COLORS = ['#dbe4ed', '#aecce3', '#6ca5ce', '#3479ad'];
+const LOW_WEIGHT_COLORS = ['#dbe4ed', '#f4dab2', '#dca65a', '#b66b27'];
 
 let mode = null;            // what pressing on a cell does: 'start', 'end', 'wall', 'weight' or nothing
 let startCellID = null;

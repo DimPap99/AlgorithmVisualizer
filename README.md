@@ -9,7 +9,7 @@ Interactive sorting and pathfinding algorithms, implemented in Python with JavaS
 The hosted version runs the existing Python algorithms through Pyodide in a Web Worker.
 It needs no Flask server. The Python runtime, JavaScript dependencies, and algorithm source
 are included in the static build and served from the same site. The first visit downloads
-the Python runtime; subsequent loads can reuse the browser cache.
+the Python runtime. Subsequent loads can reuse the browser cache.
 
 Requirements: Python 3.12+ and Node.js 22+.
 
@@ -22,7 +22,7 @@ npm run build
 python3 -m http.server 8000 --directory dist
 ```
 
-Open <http://localhost:8000>. Serve the build over HTTP; opening the HTML files directly
+Open <http://localhost:8000>. Serve the build over HTTP. Opening the HTML files directly
 will not load the module worker. `dist/` is generated and should not be committed.
 
 ## Deploy an update
@@ -35,8 +35,8 @@ npm run deploy
 
 This runs the Python and WebAssembly tests, builds `dist/`, pushes the source to
 `master`, and publishes the generated files to `gh-pages`. GitHub Pages automatically
-deploys that branch. A normal push to `master` updates the source repository;
-run `npm run deploy` when you want the live demo updated.
+deploys that branch. A normal push to `master` updates the source repository.
+Run `npm run deploy` when you want the live demo updated.
 
 The repository's Pages source is **Deploy from a branch → gh-pages → /(root)**.
 This uses GitHub's built-in Pages deployment and does not require permission to
@@ -44,7 +44,7 @@ create custom Actions workflows. The deployment helper refuses uncommitted sourc
 changes and uses a temporary checkout without replacing your working files.
 
 New algorithm classes and distribution parameters appear in the generated controls
-on the next build. Keep changes in the Python source; do not edit generated files.
+on the next build. Keep changes in the Python source. Do not edit generated files.
 
 ## Flask version
 
@@ -69,15 +69,22 @@ The Node tests execute the exported Python source with the actual Pyodide WebAss
 runtime, exercise the packaged worker, and check cancellation and startup errors.
 
 ## Algorithms
+
+Each selected algorithm shows pseudocode, its worst-case time complexity, and notes
+about the implementation. The [algorithm guide review](docs/algorithm-guide-review.md)
+records the bounds, implementation differences, and standard references.
+Start and End have separate colors and S/E markers.
+Weights use blue above 1 and amber below 1.
+
 - **Path Finding:** Dijkstra, A* Search, Greedy Best-First Search, Bidirectional Dijkstra, Yen's K Shortest Paths,
   Bellman-Ford, Breadth-First Search, Depth-First Search.
   Cells can have weights (the cost of moving into them), painted one by one or generated from a distribution
-  (Uniform, Gaussian, Exponential, Bernoulli); BFS and DFS ignore them. Only Bellman-Ford allows negative weights,
+  (Uniform, Gaussian, Exponential, Bernoulli). BFS and DFS ignore them. Only Bellman-Ford allows negative weights,
   and it highlights a negative cycle when there is one (then no cheapest path exists).
 - **Sorting:** Insertion, Quick, Bubble, Selection, Merge, Heap, Shell, Cocktail Shaker and Comb Sort
 
 ## Adding an algorithm
-Every algorithm is a small class that registers itself by its `name`, and the pages list every registered algorithm.
+Every algorithm is a small class that registers itself by its `name`, and the pages list every registered algorithm. Add its pseudocode and complexity to `static/data/algorithm-guides.json` as well. The tests check that every registered algorithm has an entry.
 
 A sort algorithm subclasses `SortAlgorithm` (`Algorithms/SortAlgorithms.py`) and moves elements only through
 `self.swap(i, j)`, which records the swaps that the page animates:
